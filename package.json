@@ -8,15 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.11",
+    "@heroicons/react": "^2.0.15",
     "@next/font": "^13.1.5",
     "@vercel/analytics": "^0.1.8",
     "clsx": "^1.2.1",
     "eventsource-parser": "^0.1.0",
     "next": "latest",
-    "node-html-parser": "^6.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hot-toast": "^2.4.0"
+    "react-hot-toast": "^2.4.0",
+    "react-rough-notation": "^1.0.3"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
