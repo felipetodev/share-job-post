@@ -41,7 +41,7 @@ export default function Selector ({ onChange }: any) {
                   key={personIdx}
                   className={({ active }) =>
                     `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                      active ? 'bg-amber-100 text-black' : 'text-gray-900'
                     }`
                   }
                   value={person}

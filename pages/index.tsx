@@ -26,6 +26,10 @@ export default function Home() {
   }
 
   const generateJobPost = async () => {
+    if (!state.jobPosition || !state.jobDescription) {
+      const toast = (await import("react-hot-toast")).toast
+      return toast.error("complete all fields")
+    }
     setJobPost("")
     setLoading(true)
     const response = await fetch('/api/job-post', {
