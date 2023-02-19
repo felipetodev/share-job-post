@@ -5,6 +5,7 @@ import { RoughNotation } from "react-rough-notation";
 import { ChangeEvent, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import type { JobPost } from "../types";
 
 const Popover = dynamic(() => import("../components/Popover"))
@@ -61,6 +62,10 @@ export default function Home() {
 
   return (
     <div className="pattern-grid-lg text-white/5">
+      <Head>
+        <title>Share Job Post</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <div className="mt-10 flex flex-col text-white max-w-5xl mx-auto items-center justify-center py-2 min-h-screen">
         <div className="text-center mb-10">
