@@ -19,7 +19,7 @@ class MyDocument extends Document {
           <meta name="twitter:description" content={description} />
           <link href="https://unpkg.com/pattern.css" rel="stylesheet" />
         </Head>
-        <body className="bg-black text-white">
+        <body className="bg-black text-white overflow-x-hidden">
           <Main />
           <NextScript />
         </body>

@@ -3,9 +3,11 @@ import Header from "../components/Header";
 import Selector, { vibes } from "../components/Selector";
 import { RoughNotation } from "react-rough-notation";
 import { ChangeEvent, useState } from "react";
-import type { JobPost } from "../types";
 import { Toaster } from "react-hot-toast";
-import Popover from "../components/Popover";
+import dynamic from "next/dynamic";
+import type { JobPost } from "../types";
+
+const Popover = dynamic(() => import("../components/Popover"))
 
 const initialState: JobPost = {
   jobPosition: "",
@@ -57,12 +59,10 @@ export default function Home() {
     setLoading(false);
   }
 
-  console.log(jobPost)
-
   return (
     <div className="pattern-grid-lg text-white/5">
       <Header />
-      <div className="flex flex-col text-white max-w-5xl mx-auto items-center justify-center py-2 min-h-screen">
+      <div className="mt-10 flex flex-col text-white max-w-5xl mx-auto items-center justify-center py-2 min-h-screen">
         <div className="text-center mb-10">
           <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold">
             Share job post in{" "}
@@ -78,7 +78,7 @@ export default function Home() {
             </RoughNotation>
           </h1>
         </div>
-        <div className="w-[590px]">
+        <div className="mx-8 md:mx-auto md:w-[590px]">
           <div className="flex items-center space-x-3 mt-8 mb-4">
             <span className="border-2 border-amber-500 flex items-center justify-center bg-amber-500 rounded-full p-3 h-4 w-4 text-white font-bold">
               {"1"}
@@ -130,18 +130,15 @@ export default function Home() {
           toastOptions={{ duration: 2000 }}
         />
         {jobPost && (
-          <div className="mb-10 mt-14 pt-8 border-t border-gray-600">
-            <div className="relative bg-[#1f1f1f]/60 pb-6 pt-4 px-6 rounded-md w-full">
-              <h2 className="mx-auto max-w-3xl text-center text-3xl font-bold sm:text-5xl">
+          <div className="mb-10 mx-8 md:mx-auto mt-14 pt-8 border-t border-gray-600">
+            <div className="relative bg-[#1f1f1f]/60 pb-6 pt-4 px-6 rounded-md md:w-full">
+              <h2 className="mx-auto md:max-w-3xl text-center text-3xl font-bold sm:text-5xl">
                 Job Post:
               </h2>
-              <div className="mx-auto mt-6 max-w-3xl text-lg leading-7">
+              <pre className="font-[inherit] mt-6 md:max-w-3xl text-ellipsis overflow-hidden whitespace-pre-wrap break-words">
                 {jobPost}
-              </div>
-              <Popover />
-              {/* <span className="font-bold cursor-pointer absolute top-4 right-4 text-amber-600 flex items-center justify-center">
-                Share <ClipboardDocumentIcon className="ml-1 h-6 w-6" aria-hidden="true" />
-              </span> */}
+              </pre>
+              <Popover jobPost={jobPost} />
             </div>
           </div>
         )}

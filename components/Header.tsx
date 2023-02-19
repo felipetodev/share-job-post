@@ -3,7 +3,7 @@ import { BriefcaseIcon } from '@heroicons/react/20/solid'
 
 export default function Header() {
   return (
-    <header className="flex justify-between items-center w-full px-16 py-4 text-white bg-black">
+    <header className="flex justify-between items-center w-full px-8 md:px-16 py-4 text-white bg-black">
       <Link href="/" className="group flex space-x-3">
         <span className="text-amber-600 flex items-center justify-center">
           <BriefcaseIcon className="h-10 w-10" aria-hidden="true" />
