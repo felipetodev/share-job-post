@@ -6,7 +6,12 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'fade-top': 'linear-gradient(0deg,#0000 10%,#000)',
+        'fade-bottom': 'linear-gradient(180deg,#0000 15%,#000)'
+      }
+    },
   },
   plugins: [],
 }
