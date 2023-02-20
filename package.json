@@ -11,6 +11,7 @@
     "@headlessui/react": "^1.7.11",
     "@heroicons/react": "^2.0.15",
     "@next/font": "^13.1.5",
+    "@upstash/redis": "^1.20.0",
     "@vercel/analytics": "^0.1.8",
     "clsx": "^1.2.1",
     "eventsource-parser": "^0.1.0",
