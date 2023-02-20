@@ -71,7 +71,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="mt-10 flex flex-col text-white max-w-5xl mx-auto items-center justify-center py-2 min-h-screen">
+      <div className="my-10 flex flex-col text-white max-w-5xl mx-auto items-center justify-center py-2 min-h-screen">
         <div className="text-center mb-10">
           <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold">
             Share job post in{" "}
