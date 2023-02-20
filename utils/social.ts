@@ -1,4 +1,17 @@
-export async function copyToClipboard(jobPost: string, toast: any) {
+async function urlShortener (post: string) {
+    const res = await fetch("/api/url-shortener", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: post }),
+    });
+    if (!res.ok) throw new Error("failed to shorten url")
+    const { url } = await res.json()
+    return url
+}
+
+export function copyToClipboard(jobPost: string, toast: any) {
   if (!jobPost) return toast.error("no job post to copy")
   const post = `
     ${jobPost}
@@ -13,22 +26,25 @@ made with @sharejobpost ❤️
   });
 }
 
-export function shareTwitter(post: string) {
+export async function shareTwitter(post: string) {
+  const shortUrl = await urlShortener(post)
   const parsePost = `
-    ${post.split(" ", 24).join(" ")}...
+We're hiring!
+
+${post.split(" ", 24).join(" ")}...
 
 check out this job post below 👇:
-https://sharejobpost.com/post/jkwql8s
+${shortUrl}
 
 made with @sharejobpost ❤️
   `.trim()
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(parsePost)}`
 }
 
-export function shareLinkedIn(post: string) {
-  let url = "http://sharejobpost.com"
+export async function shareLinkedIn(post: string) {
+  const shortUrl = await urlShortener(post)
   window.open(
-    `http://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`,
+    `http://www.linkedin.com/shareArticle?mini=true&url=${shortUrl}`,
     "",
     "left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0"
   );

@@ -46,10 +46,14 @@ export default function Popover({ jobPost }: { jobPost: string }) {
                         </p>
                       </div>
                     </button>
-                    <a
-                      href={shareTwitter(jobPost)}
-                      target="_blank"
-                      rel="noopener nofollow"
+                    <button
+                      onClick={async () => {
+                        console.log("=======shareTwitter======")
+                        const twitterPost = await shareTwitter(jobPost)
+                        window.open(twitterPost, '_blank')
+                      }}
+                      // target="_blank"
+                      // rel="noopener nofollow"
                       className="flex rounded-lg transition duration-150 ease-in-out py-2 hover:bg-amber-100"
                     >
                       <div className="flex mx-5 gap-2 items-center justify-center">
@@ -60,9 +64,12 @@ export default function Popover({ jobPost }: { jobPost: string }) {
                           Twitter
                         </p>
                       </div>
-                    </a>
+                    </button>
                     <button
-                      onClick={() => shareLinkedIn(jobPost)}
+                      onClick={() => {
+                        console.log("=======shareLinkedIn======")
+                        shareLinkedIn(jobPost)
+                      }}
                       className="flex rounded-lg transition duration-150 ease-in-out py-2 hover:bg-amber-100"
                     >
                       <div className="flex mx-5 gap-2 items-center justify-center">
