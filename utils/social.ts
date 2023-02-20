@@ -33,10 +33,10 @@ We're hiring!
 
 ${post.split(" ", 24).join(" ")}...
 
-check out this job post below 👇:
+check out complete job post below 👇:
 ${shortUrl}
 
-made with @sharejobpost ❤️
+made with @sharejobpost.com ❤️
   `.trim()
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(parsePost)}`
 }
