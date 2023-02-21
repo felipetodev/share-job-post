@@ -4,7 +4,7 @@ export default function Footer () {
   return (
     <footer className="flex justify-between w-full px-8 md:px-16 py-4 bg-fade-bottom">
       <div className="text-white">
-        Powered by{" "}
+        © 2023 Built with{" "}
         <a
           href="https://openai.com/"
           target="_blank"
@@ -15,12 +15,12 @@ export default function Footer () {
         </a>
         and{" "}
         <a
-          href="https://vercel.com/"
+          href="https://github.com/felipetodev/share-job-post"
           target="_blank"
           rel="noreferrer"
           className="font-bold hover:underline transition underline-offset-2"
         >
-          Vercel Edge Functions.
+          Open Source
         </a>
       </div>
       <div className="flex space-x-4 pb-4 sm:pb-0">
