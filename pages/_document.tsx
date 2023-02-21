@@ -5,6 +5,7 @@ class MyDocument extends Document {
     let description = "Share job post in seconds.";
     let sitename = "sharejobpost.com";
     let title = "Share Job Post!";
+    let ogimage = "https://www.sharejobpost.com/og-image.png";
 
     return (
       <Html lang="en">
@@ -17,6 +18,8 @@ class MyDocument extends Document {
           <meta name="twitter:card" content="jobpost_large_image" />
           <meta name="twitter:title" content={title} />
           <meta name="twitter:description" content={description} />
+          <meta name="twitter:image" content={ogimage} />
+          <meta property="og:image" content={ogimage} />
           <link href="https://unpkg.com/pattern.css" rel="stylesheet" />
         </Head>
         <body className="bg-black text-white overflow-x-hidden">
