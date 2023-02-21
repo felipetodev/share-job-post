@@ -1,26 +1,32 @@
 import { Fragment } from 'react'
-import { Popover as PopOver, Transition } from '@headlessui/react'
+import { Popover, Transition } from '@headlessui/react'
 import { ClipboardDocumentIcon } from '@heroicons/react/20/solid'
 import { copyToClipboard, shareLinkedIn, shareTwitter } from '../utils/social'
 
-export default function Popover({ jobPost }: { jobPost: string }) {
+interface Props {
+  jobPost: string;
+  shortedUrl: string;
+  setShortedUrl: (url: string) => void;
+}
+
+export default function SocialPopover({ jobPost, shortedUrl, setShortedUrl }: Props) {
   const onCopyToClipboard = async () => {
     const toast = (await import("react-hot-toast")).toast
     copyToClipboard(jobPost, toast)
   }
   return (
     <div className="absolute top-3 right-3">
-      <PopOver className="relative">
+      <Popover className="relative">
         {({ open }) => (
           <>
-            <PopOver.Button
+            <Popover.Button
               className={open ? '' : 'text-opacity-90'}
             >
               <span className="font-bold cursor-pointer top-4 right-4 text-amber-600 flex items-center justify-center">
                 <span className='hidden sm:flex'>Share</span>
                 <ClipboardDocumentIcon className="ml-1 h-6 w-6" aria-hidden="true" />
               </span>
-            </PopOver.Button>
+            </Popover.Button>
             <Transition
               as={Fragment}
               enter="transition ease-out duration-200"
@@ -30,7 +36,7 @@ export default function Popover({ jobPost }: { jobPost: string }) {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <PopOver.Panel className="absolute -left-2 sm:left-1/2 z-10 mt-3 -translate-x-1/2 transform">
+              <Popover.Panel className="absolute -left-2 sm:left-1/2 z-10 mt-3 -translate-x-1/2 transform">
                 <div className="overflow-hidden rounded-lg">
                   <div className="relative flex flex-col bg-white p-1">
                     <button
@@ -48,12 +54,12 @@ export default function Popover({ jobPost }: { jobPost: string }) {
                     </button>
                     <button
                       onClick={async () => {
-                        console.log("=======shareTwitter======")
-                        const twitterPost = await shareTwitter(jobPost)
-                        window.open(twitterPost, '_blank')
+                        const { href, shortUrl } = await shareTwitter(jobPost, shortedUrl)
+                        window.open(href, '_blank')
+                        if (shortUrl !== shortedUrl) {
+                          setShortedUrl(shortUrl)
+                        }
                       }}
-                      // target="_blank"
-                      // rel="noopener nofollow"
                       className="flex rounded-lg transition duration-150 ease-in-out py-2 hover:bg-amber-100"
                     >
                       <div className="flex mx-5 gap-2 items-center justify-center">
@@ -66,9 +72,11 @@ export default function Popover({ jobPost }: { jobPost: string }) {
                       </div>
                     </button>
                     <button
-                      onClick={() => {
-                        console.log("=======shareLinkedIn======")
-                        shareLinkedIn(jobPost)
+                      onClick={async () => {
+                        const { shortUrl } = await shareLinkedIn(jobPost, shortedUrl)
+                        if (shortUrl !== shortedUrl) {
+                          setShortedUrl(shortUrl)
+                        }
                       }}
                       className="flex rounded-lg transition duration-150 ease-in-out py-2 hover:bg-amber-100"
                     >
@@ -83,11 +91,11 @@ export default function Popover({ jobPost }: { jobPost: string }) {
                     </button>
                   </div>
                 </div>
-              </PopOver.Panel>
+              </Popover.Panel>
             </Transition>
           </>
         )}
-      </PopOver>
+      </Popover>
     </div>
   )
 }

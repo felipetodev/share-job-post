@@ -26,8 +26,10 @@ made with @sharejobpost ❤️
   });
 }
 
-export async function shareTwitter(post: string) {
-  const shortUrl = await urlShortener(post)
+export async function shareTwitter(post: string, shortedUrl: string) {
+  const shortUrl = shortedUrl
+    ? shortedUrl
+    : await urlShortener(post)
   const parsePost = `
 We're hiring!
 
@@ -38,14 +40,22 @@ ${shortUrl}
 
 made with @sharejobpost.com ❤️
   `.trim()
-  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(parsePost)}`
+  return {
+    href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(parsePost)}`,
+    shortUrl
+  }
 }
 
-export async function shareLinkedIn(post: string) {
-  const shortUrl = await urlShortener(post)
+export async function shareLinkedIn(post: string, shortedUrl: string) {
+  const shortUrl = shortedUrl
+    ? shortedUrl
+    : await urlShortener(post)
   window.open(
     `http://www.linkedin.com/shareArticle?mini=true&url=${shortUrl}`,
     "",
-    "left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0"
+    "left=0,top=0,width=650,height=620,personalbar=0,toolbar=0,scrollbars=0,resizable=0"
   );
+  return {
+    shortUrl
+  }
 }

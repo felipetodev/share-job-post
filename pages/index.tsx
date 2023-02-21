@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import type { JobPost } from "../types";
 
-const Popover = dynamic(() => import("../components/Popover"))
+const SocialPopover = dynamic(() => import("../components/SocialPopover"))
 
 const initialState: JobPost = {
   jobPosition: "",
@@ -20,6 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [jobPost, setJobPost] = useState<string>("");
   const [state, setState] = useState<JobPost>(initialState)
+  const [shortedUrl, setShortedUrl] = useState<string>("")
 
   const handleInput = ({ target }: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setState({ ...state, [target.name]: target.value.trim() })
@@ -31,6 +32,7 @@ export default function Home() {
       return toast.error("complete all fields")
     }
     setJobPost("")
+    setShortedUrl("")
     setLoading(true)
     const response = await fetch('/api/job-post', {
       method: 'POST',
@@ -147,7 +149,11 @@ export default function Home() {
               <pre className="font-[inherit] mt-6 md:max-w-3xl text-ellipsis overflow-hidden whitespace-pre-wrap break-words">
                 {jobPost}
               </pre>
-              <Popover jobPost={jobPost} />
+              <SocialPopover
+                shortedUrl={shortedUrl}
+                setShortedUrl={setShortedUrl}
+                jobPost={jobPost}
+              />
             </div>
           </div>
         )}
