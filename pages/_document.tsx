@@ -1,11 +1,11 @@
-import Document, { Head, Html, Main, NextScript } from "next/document";
+import Document, { Head, Html, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
-  render() {
-    let description = "Share job post in seconds.";
-    let sitename = "sharejobpost.com";
-    let title = "Share Job Post!";
-    let ogimage = "https://www.sharejobpost.com/og-image.png";
+  render () {
+    const description = 'Share job post in seconds.'
+    const sitename = 'sharejobpost.com'
+    const title = 'Share Job Post!'
+    const ogimage = 'https://www.sharejobpost.com/og-image.png'
 
     return (
       <Html lang="en">
@@ -27,8 +27,8 @@ class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MyDocument;
+export default MyDocument

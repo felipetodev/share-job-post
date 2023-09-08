@@ -1,10 +1,10 @@
 export interface JobPost {
-  jobPosition?: string;
-  jobDescription?: string;
-  jobVibe?: string;
+  jobPosition?: string
+  jobDescription?: string
+  jobVibe?: string
 }
 
 export interface Vibes {
-  name: string,
+  name: string
   icon: string
 }

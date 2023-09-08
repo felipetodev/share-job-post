@@ -1,34 +1,34 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Selector, { vibes } from "../components/Selector";
-import { RoughNotation } from "react-rough-notation";
-import { ChangeEvent, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import { useChat } from 'ai/react';
-import type { JobPost } from "../types";
+import Footer from '../components/Footer'
+import Header from '../components/Header'
+import Selector, { vibes } from '../components/Selector'
+import { RoughNotation } from 'react-rough-notation'
+import { type ChangeEvent, useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import { useChat } from 'ai/react'
+import type { JobPost } from '../types'
 
-const SocialPopover = dynamic(() => import("../components/SocialPopover"))
+const SocialPopover = dynamic(async () => await import('../components/SocialPopover'))
 
 const initialState: JobPost = {
-  jobPosition: "",
-  jobDescription: "",
-  jobVibe: vibes[0].name,
+  jobPosition: '',
+  jobDescription: '',
+  jobVibe: vibes[0].name
 }
 
-export default function Home() {
+export default function Home () {
   const [state, setState] = useState<JobPost>(initialState)
-  const [shortedUrl, setShortedUrl] = useState<string>("")
+  const [shortedUrl, setShortedUrl] = useState<string>('')
 
   const { input, error, stop, isLoading, messages, handleInputChange, handleSubmit } =
   useChat({
     api: '/api/job-post',
     body: { ...state },
-    onResponse() {
-      console.log("✅")
-    },
-  });
+    onResponse () {
+      console.log('✅')
+    }
+  })
 
   const handleInput = ({ target }: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setState({ ...state, [target.name]: target.value.trim() })
@@ -37,11 +37,11 @@ export default function Home() {
   const generateJobPost = async (e: any) => {
     e.preventDefault()
     if (!state.jobPosition || !state.jobDescription) {
-      return toast.error("complete all fields")
+      return toast.error('complete all fields')
     }
 
-    handleSubmit(e);
-    setShortedUrl("")
+    handleSubmit(e)
+    setShortedUrl('')
   }
 
   useEffect(() => {
@@ -50,8 +50,8 @@ export default function Home() {
     }
   }, [error])
 
-  const lastMessage = messages[messages.length - 1];
-  const generatedJobPost = lastMessage?.role === "assistant" ? lastMessage.content : null;
+  const lastMessage = messages[messages.length - 1]
+  const generatedJobPost = lastMessage?.role === 'assistant' ? lastMessage.content : null
 
   return (
     <div className="pattern-grid-lg text-white/5">
@@ -63,7 +63,7 @@ export default function Home() {
       <div className="my-10 flex flex-col text-white max-w-5xl mx-auto items-center justify-center py-2 min-h-screen">
         <div className="text-center mb-10">
           <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold">
-            Share job post in{" "}
+            Share job post in{' '}
             <RoughNotation
               type="underline"
               show
@@ -79,7 +79,7 @@ export default function Home() {
         <form onSubmit={generateJobPost} className="mx-8 md:mx-auto md:w-[590px]">
           <div className="flex items-center space-x-3 mt-8 mb-4">
             <span className="border-2 border-amber-500 flex items-center justify-center bg-amber-500 rounded-full p-3 h-4 w-4 text-white font-bold">
-              {"1"}
+              {'1'}
             </span>
             <p className="text-left font-medium">
               What is the name of the position you are looking for?
@@ -94,7 +94,7 @@ export default function Home() {
           />
           <div className="flex items-center space-x-3 mt-8 mb-4">
             <span className="border-2 border-amber-500 flex items-center justify-center bg-amber-500 rounded-full p-3 h-4 w-4 text-white font-bold">
-              {"2"}
+              {'2'}
             </span>
             <p className="text-left font-medium">
               What are the requirements for this position?
@@ -113,19 +113,21 @@ export default function Home() {
           />
           <div className="flex items-center space-x-3 mt-8 mb-4">
             <span className="border-2 border-amber-500 flex items-center justify-center bg-amber-500 rounded-full p-3 h-4 w-4 text-white font-bold">
-              {"3"}
+              {'3'}
             </span>
             <p className="text-left font-medium">Select your vibe.</p>
           </div>
           <Selector onChange={handleInput} />
-          {isLoading ? (
+          {isLoading
+            ? (
             <button
               className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:border-amber-500 hover:bg-[#1f1f1f]/60 w-full border border-white"
               onClick={stop}
             >
               Loading... (stop)
             </button>
-          ) : (
+              )
+            : (
             <button
               type='submit'
               disabled={isLoading}
@@ -134,7 +136,7 @@ export default function Home() {
             >
               Generate your post &rarr;
             </button>
-          )}
+              )}
 
         </form>
         <Toaster

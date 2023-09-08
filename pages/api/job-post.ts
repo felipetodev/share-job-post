@@ -1,27 +1,27 @@
-import Replicate from 'replicate';
-import { type Message, ReplicateStream, StreamingTextResponse } from 'ai';
-import { experimental_buildLlama2Prompt } from 'ai/prompts';
-import type { JobPost } from "../../types";
+import Replicate from 'replicate'
+import { type Message, ReplicateStream, StreamingTextResponse } from 'ai'
+import { experimental_buildLlama2Prompt } from 'ai/prompts'
+import type { JobPost } from '../../types'
 
 export const config = {
-  runtime: "edge",
-};
+  runtime: 'edge'
+}
 
 if (!process.env.REPLICATE_API_KEY) {
-  throw new Error("Replicate key is not set");
+  throw new Error('Replicate key is not set')
 }
 
 const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_KEY || '',
-});
+  auth: process.env.REPLICATE_API_KEY || ''
+})
 
-const MODEL_META_LLAMA_270bchat = '2c1608e18606fad2812020dc541930f2d0495ce32eee50074220b87300bc16e1'
+const MODEL_META_LLAMA_270BCHAT = '2c1608e18606fad2812020dc541930f2d0495ce32eee50074220b87300bc16e1'
 
-export default async function handler(req: Request) {
-  const { jobPosition, jobDescription, jobVibe } = (await req.json()) as JobPost;
+export default async function handler (req: Request) {
+  const { jobPosition, jobDescription, jobVibe } = (await req.json()) as JobPost
 
   if (!jobPosition || !jobDescription || !jobVibe) {
-    return new Response("No prompt in the request", { status: 500 });
+    return new Response('No prompt in the request', { status: 500 })
   }
 
   try {
@@ -37,23 +37,23 @@ export default async function handler(req: Request) {
 
     const response = await replicate.predictions.create({
       stream: true,
-      version: MODEL_META_LLAMA_270bchat,
+      version: MODEL_META_LLAMA_270BCHAT,
       input: {
-        prompt: experimental_buildLlama2Prompt(promptTemplate),
-      },
+        prompt: experimental_buildLlama2Prompt(promptTemplate)
+      }
     })
 
-    const stream = await ReplicateStream(response);
+    const stream = await ReplicateStream(response)
 
-    return new StreamingTextResponse(stream);
+    return new StreamingTextResponse(stream)
   } catch (e: any) {
-    const error = (e?.message || 'Something went wrong');
-    console.error(error);
+    const error = (e?.message || 'Something went wrong')
+    console.error(error)
 
-    let errMessage = error.includes('the free time limit')
+    const errMessage = error.includes('the free time limit')
       ? 'The free time limit has been reached. Please try again later.'
-      : error;
+      : error
 
-    return new Response(errMessage, { status: 500 });
+    return new Response(errMessage, { status: 500 })
   }
 }

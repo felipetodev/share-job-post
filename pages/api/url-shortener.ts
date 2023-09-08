@@ -1,13 +1,13 @@
-import { setUrl } from "../../utils/redis";
+import { setUrl } from '../../utils/redis'
 
 export const config = {
-  runtime: "edge",
-};
+  runtime: 'edge'
+}
 
-export default async function handler(req: Request) {
-  const { url } = (await req.json()) as { url: string };
-  const ecodedUrl = encodeURIComponent(url);
-  const key = crypto.randomUUID().replaceAll("-", "");
+export default async function handler (req: Request) {
+  const { url } = (await req.json()) as { url: string }
+  const ecodedUrl = encodeURIComponent(url)
+  const key = crypto.randomUUID().replaceAll('-', '')
   await setUrl(key, ecodedUrl)
-  return new Response(JSON.stringify({ url: `https://sharejobpost.com/job/${key}` }), { status: 200 });
+  return new Response(JSON.stringify({ url: `https://sharejobpost.com/job/${key}` }), { status: 200 })
 }
