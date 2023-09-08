@@ -2,10 +2,11 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Selector, { vibes } from "../components/Selector";
 import { RoughNotation } from "react-rough-notation";
-import { ChangeEvent, useState } from "react";
-import { Toaster } from "react-hot-toast";
+import { ChangeEvent, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useChat } from 'ai/react';
 import type { JobPost } from "../types";
 
 const SocialPopover = dynamic(() => import("../components/SocialPopover"))
@@ -17,54 +18,40 @@ const initialState: JobPost = {
 }
 
 export default function Home() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [jobPost, setJobPost] = useState<string>("");
   const [state, setState] = useState<JobPost>(initialState)
   const [shortedUrl, setShortedUrl] = useState<string>("")
+
+  const { input, error, stop, isLoading, messages, handleInputChange, handleSubmit } =
+  useChat({
+    api: '/api/job-post',
+    body: { ...state },
+    onResponse() {
+      console.log("✅")
+    },
+  });
 
   const handleInput = ({ target }: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setState({ ...state, [target.name]: target.value.trim() })
   }
 
-  const generateJobPost = async () => {
+  const generateJobPost = async (e: any) => {
+    e.preventDefault()
     if (!state.jobPosition || !state.jobDescription) {
-      const toast = (await import("react-hot-toast")).toast
       return toast.error("complete all fields")
     }
-    setJobPost("")
+
+    handleSubmit(e);
     setShortedUrl("")
-    setLoading(true)
-    const response = await fetch('/api/job-post', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(state),
-    })
-
-    if (!response.ok) {
-      console.log("error", response.statusText);
-      setLoading(false);
-      return;
-    }
-
-    const data = response.body;
-    if (!data) {
-      return;
-    }
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      setJobPost((prev) => prev + chunkValue);
-    }
-    setLoading(false);
   }
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message)
+    }
+  }, [error])
+
+  const lastMessage = messages[messages.length - 1];
+  const generatedJobPost = lastMessage?.role === "assistant" ? lastMessage.content : null;
 
   return (
     <div className="pattern-grid-lg text-white/5">
@@ -89,7 +76,7 @@ export default function Home() {
             </RoughNotation>
           </h1>
         </div>
-        <div className="mx-8 md:mx-auto md:w-[590px]">
+        <form onSubmit={generateJobPost} className="mx-8 md:mx-auto md:w-[590px]">
           <div className="flex items-center space-x-3 mt-8 mb-4">
             <span className="border-2 border-amber-500 flex items-center justify-center bg-amber-500 rounded-full p-3 h-4 w-4 text-white font-bold">
               {"1"}
@@ -116,7 +103,11 @@ export default function Home() {
           <textarea
             name="jobDescription"
             rows={4}
-            onChange={handleInput}
+            value={input}
+            onChange={(e) => {
+              handleInputChange(e)
+              handleInput(e)
+            }}
             placeholder="e.g. Experience using JavaScript frameworks and libraries, such as React, fluent english, Ability to write effective unit, integration, and E2E tests, etc."
             className="relative flex items-center w-full text-black rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
           />
@@ -127,32 +118,43 @@ export default function Home() {
             <p className="text-left font-medium">Select your vibe.</p>
           </div>
           <Selector onChange={handleInput} />
-          <button
-              disabled={loading}
+          {isLoading ? (
+            <button
+              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:border-amber-500 hover:bg-[#1f1f1f]/60 w-full border border-white"
+              onClick={stop}
+            >
+              Loading... (stop)
+            </button>
+          ) : (
+            <button
+              type='submit'
+              disabled={isLoading}
               className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:border-amber-500 hover:bg-[#1f1f1f]/60 w-full border border-white"
               onClick={generateJobPost}
             >
               Generate your post &rarr;
-          </button>
-        </div>
+            </button>
+          )}
+
+        </form>
         <Toaster
           position="top-center"
           reverseOrder={false}
           toastOptions={{ duration: 2000 }}
         />
-        {jobPost && (
+        {generatedJobPost && (
           <div className="mb-10 mx-8 md:mx-auto mt-14 pt-8 border-t border-gray-600">
             <div className="relative bg-[#1f1f1f]/60 pb-6 pt-4 px-6 rounded-md md:w-full">
               <h2 className="mx-auto md:max-w-3xl text-center text-3xl font-bold sm:text-5xl">
                 Job Post:
               </h2>
               <pre className="font-[inherit] mt-6 md:max-w-3xl text-ellipsis overflow-hidden whitespace-pre-wrap break-words">
-                {jobPost}
+                {generatedJobPost}
               </pre>
               <SocialPopover
                 shortedUrl={shortedUrl}
                 setShortedUrl={setShortedUrl}
-                jobPost={jobPost}
+                jobPost={generatedJobPost}
               />
             </div>
           </div>
