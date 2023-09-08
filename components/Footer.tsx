@@ -6,21 +6,21 @@ export default function Footer () {
       <div className="text-white">
         © 2023 Built with{' '}
         <a
-          href="https://openai.com/"
+          href="https://sdk.vercel.ai/docs"
           target="_blank"
           rel="noreferrer"
           className="font-bold hover:underline transition underline-offset-2"
         >
-          OpenAI{' '}
+          Vercel AI SDK{' '}
         </a>
         and{' '}
         <a
-          href="https://github.com/felipetodev/share-job-post"
+          href="https://replicate.com/meta/llama-2-70b-chat"
           target="_blank"
           rel="noreferrer"
           className="font-bold hover:underline transition underline-offset-2"
         >
-          Open Source
+          Replicate
         </a>
       </div>
       <div className="flex space-x-4 pb-4 sm:pb-0">
