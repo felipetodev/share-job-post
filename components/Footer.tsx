@@ -1,19 +1,19 @@
-import Link from "next/link"
+import Link from 'next/link'
 
 export default function Footer () {
   return (
     <footer className="flex justify-between w-full px-8 md:px-16 py-4 bg-fade-bottom">
       <div className="text-white">
-        © 2023 Built with{" "}
+        © 2023 Built with{' '}
         <a
           href="https://openai.com/"
           target="_blank"
           rel="noreferrer"
           className="font-bold hover:underline transition underline-offset-2"
         >
-          OpenAI{" "}
+          OpenAI{' '}
         </a>
-        and{" "}
+        and{' '}
         <a
           href="https://github.com/felipetodev/share-job-post"
           target="_blank"

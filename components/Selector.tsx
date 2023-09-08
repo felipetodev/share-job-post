@@ -7,7 +7,7 @@ export const vibes = [
   { name: 'Professional', icon: '💼' },
   { name: 'Friendly', icon: '😊' },
   { name: 'Persuasive', icon: '🧠' },
-  { name: 'Empathetic', icon: '🤗' },
+  { name: 'Empathetic', icon: '🤗' }
 ]
 
 export default function Selector ({ onChange }: any) {
@@ -55,15 +55,17 @@ export default function Selector ({ onChange }: any) {
                       >
                         {person.name}
                       </span>
-                      {selected ? (
+                      {selected
+                        ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
-                      ) : (
+                          )
+                        : (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                           {person.icon}
                         </span>
-                      )}
+                          )}
                     </>
                   )}
                 </Listbox.Option>

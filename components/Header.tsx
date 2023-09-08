@@ -1,7 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link'
 import { BriefcaseIcon } from '@heroicons/react/20/solid'
 
-export default function Header() {
+export default function Header () {
   return (
     <header className="flex justify-between items-center w-full px-8 md:px-16 py-4 text-white bg-fade-top">
       <Link href="/" className="group flex items-center space-x-3">

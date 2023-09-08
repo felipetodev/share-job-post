@@ -8,21 +8,21 @@ class MyDocument extends Document {
     const ogimage = 'https://www.sharejobpost.com/og-image.png'
 
     return (
-      <Html lang="en">
+      <Html lang='en'>
         <Head>
-          <link rel="icon" href="/favicon.ico" />
-          <meta name="description" content={description} />
-          <meta property="og:site_name" content={sitename} />
-          <meta property="og:description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta name="twitter:card" content="jobpost_large_image" />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={description} />
-          <meta name="twitter:image" content={ogimage} />
-          <meta property="og:image" content={ogimage} />
-          <link href="https://unpkg.com/pattern.css" rel="stylesheet" />
+          <link rel='icon' href='/favicon.ico' />
+          <meta name='description' content={description} />
+          <meta property='og:site_name' content={sitename} />
+          <meta property='og:description' content={description} />
+          <meta property='og:title' content={title} />
+          <meta name='twitter:card' content='jobpost_large_image' />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={description} />
+          <meta name='twitter:image' content={ogimage} />
+          <meta property='og:image' content={ogimage} />
+          <link href='https://unpkg.com/pattern.css' rel='stylesheet' />
         </Head>
-        <body className="bg-black text-white overflow-x-hidden">
+        <body className='bg-black text-white overflow-x-hidden'>
           <Main />
           <NextScript />
         </body>
