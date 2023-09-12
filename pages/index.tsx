@@ -24,10 +24,7 @@ export default function Home () {
   const { input, error, stop, isLoading, messages, handleInputChange, handleSubmit } =
   useChat({
     api: '/api/job-post',
-    body: { ...state },
-    onResponse () {
-      console.log('✅')
-    }
+    body: { ...state }
   })
 
   const handleInput = ({ target }: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
